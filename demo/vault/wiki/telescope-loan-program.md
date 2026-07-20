@@ -1,3 +1,11 @@
+---
+title: Telescope loan program
+type: topic
+tags: [loaner-fleet, members, operations]
+created: 2026-03-01
+updated: 2026-03-14
+---
+
 # Telescope loan program
 
 Members borrow a scope like a library book: two weeks, one renewal,
@@ -21,6 +29,6 @@ almost working.
 ## During the recoat downtime
 
 While the 14-inch is away for the June recoat (see
-[[wiki/mirror-recoating-decision]]), the two Dobsonians move to the
+[[mirror-recoating-decision]]), the two Dobsonians move to the
 dome schedule and member loans pause for five weeks. Open nights run on
 the Dobsonians; planet season forgives a lot.

@@ -1,3 +1,11 @@
+---
+title: Harbor Hill Observatory
+type: entity
+tags: [observatory, community, operations]
+created: 2026-03-01
+updated: 2026-03-21
+---
+
 # Harbor Hill Observatory
 
 A volunteer-run community observatory on the hill behind the old water
@@ -16,17 +24,17 @@ astronomical twilight.
 - Ada runs operations and writes these notes.
 - Marisol chairs the equipment committee and taught Ada collimation.
 - Theo handles the school-group bookings and the loaner fleet, see
-  [[wiki/telescope-loan-program]].
+  [[telescope-loan-program]].
 
 ## Equipment
 
 The main instrument is the 14-inch reflector, bought used in 2019. Its
 primary mirror is due for recoating — the full decision trail lives in
-[[wiki/mirror-recoating-decision]]. Two 8-inch Dobsonians and four
+[[mirror-recoating-decision]]. Two 8-inch Dobsonians and four
 small refractors make up the loaner fleet.
 
 ## Standing problems
 
 Dew on the corrector plate ends about a third of winter sessions early.
-The parking-lot floodlight fights the [[wiki/dark-sky-survey]] numbers
+The parking-lot floodlight fights the [[dark-sky-survey]] numbers
 every time the motion sensor trips.

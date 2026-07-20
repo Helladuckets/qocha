@@ -1,3 +1,11 @@
+---
+title: Mirror recoating decision
+type: decision
+tags: [equipment, telescope, budget]
+created: 2026-03-02
+updated: 2026-03-14
+---
+
 # Mirror recoating decision
 
 The 14-inch primary has visible coating loss at the edge and measured
@@ -30,7 +38,7 @@ Recoat, scheduled for the June lull when school groups pause. Marisol's
 argument carried it: the figure of the existing mirror is excellent, and
 a recoat restores everything a replacement would buy at a fifth of the
 cost. Theo rearranges the loaner fleet to cover the downtime, see
-[[wiki/telescope-loan-program]].
+[[telescope-loan-program]].
 
 ## Follow-ups
 

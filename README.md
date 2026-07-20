@@ -38,6 +38,11 @@ python3 -m venv .venv && .venv/bin/pip install -e .
 # then your own vault
 .venv/bin/qocha index ~/notes
 .venv/bin/qocha status ~/notes
+
+# the three-layer harness (see conventions/ and harness/)
+.venv/bin/qocha init ~/notes         # seed raw/, wiki/, the schema file
+.venv/bin/qocha lint ~/notes         # structural lint of the wiki layer
+.venv/bin/qocha preflight ~/notes    # dangling source-edge check
 ```
 
 Requirements: Python 3.10+, numpy. For semantic search: a local
@@ -121,13 +126,16 @@ unreachable); an answerer is any `prompt -> str` callable.
 
 Qocha builds out in three stages:
 
-1. **Engine** (this release) - the index, hybrid search, and grounded
-   cited ask described above.
-2. **Conventions + harness** - the content conventions for the
-   three-layer pattern (frontmatter contract, tag policy, source
-   routing) and the agent ingest harness: tranche scoping, a
-   parallel ingest-agent contract, lint and preflight checks, vault
-   bootstrap.
+1. **Engine** (v0.1) - the index, hybrid search, and grounded cited
+   ask described above.
+2. **Conventions + harness** (v0.2, this release) - the content
+   conventions for the three-layer pattern (`conventions/`: the
+   pattern, the wiki spec, a schema template, an adaptation
+   checklist), the parallel ingest-agent contract (`harness/`), and
+   the structural tooling: `qocha init` seeds a vault, `qocha lint`
+   enforces the machine-checkable spec, `qocha preflight` catches
+   dangling source edges before every ingest. The bundled demo vault
+   now demonstrates the pattern and passes its own lint.
 3. **Feeders + operator kit** - intake pipelines that keep a vault
    filling itself, each dormant until configured: an inbox for web
    clips (pair it with the official Obsidian Web Clipper; Qocha ships

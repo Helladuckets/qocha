@@ -6,8 +6,11 @@ folder to try the engine without any real data.
 
 ## Map
 
-- [[wiki/harbor-hill-observatory]] — the project overview
-- [[wiki/mirror-recoating-decision]] — the big equipment decision
-- [[wiki/telescope-loan-program]] — lending scopes to members
-- [[wiki/dark-sky-survey]] — the light-pollution measurement effort
+- [[harbor-hill-observatory]] — the project overview
+- [[mirror-recoating-decision]] — the big equipment decision
+- [[telescope-loan-program]] — lending scopes to members
+- [[dark-sky-survey]] — the light-pollution measurement effort
+- [[shielded-fixture-quote]] — a source-summary over `raw/` (the
+  three-layer pattern in miniature: the vendor letter sits immutable in
+  `raw/`, the summary carries the source edge)
 - [[Sessions/2026-03-14-first-light-retro]] — the reopening night retro

@@ -1,3 +1,14 @@
+---
+title: Dark sky survey
+type: topic
+tags: [dark-sky, light-pollution, measurement]
+created: 2026-03-01
+updated: 2026-03-21
+sources:
+  - "[[shielded-fixture-quote]]"
+source_count: 1
+---
+
 # Dark sky survey
 
 A running measurement of how dark Harbor Hill actually is, taken with a

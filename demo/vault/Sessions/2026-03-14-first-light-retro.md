@@ -20,7 +20,7 @@ unplugged.
 ## Decisions carried forward
 
 - Bearing replacement goes on the June downtime list with the recoat,
-  see [[wiki/mirror-recoating-decision]].
+  see [[mirror-recoating-decision]].
 - Dew heater lives on the scope, not in the cabinet.
 - Print the loaner sign-up sheet before open nights; the corkboard
-  sheet filled by 8pm, see [[wiki/telescope-loan-program]].
+  sheet filled by 8pm, see [[telescope-loan-program]].

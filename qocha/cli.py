@@ -1,18 +1,29 @@
 """The qocha command line.
 
+Engine:
     qocha index  <root> [--db PATH] [--no-embed] [--embed-limit N] [--watch]
     qocha search <root> "query" [--db PATH] [-n N] [--json]
     qocha ask    <root> "question" [--db PATH] [-k N] [--model NAME] [--json]
     qocha status <root> [--db PATH]
 
-The vault root may carry a qocha.json overriding defaults (dirs, owner,
-db, ollama_url, embed_model, answer_model); flags win over the file.
+Harness (see conventions/ and harness/ in the repo):
+    qocha init      <root> [--raw-dir raw] [--name NAME]
+    qocha lint      <root> [--raw-dir raw] [--wiki-dir wiki]
+                           [--allow-unresolved-links]
+    qocha preflight <root> [--raw-dir raw] [--wiki-dir wiki]
+                           [--pending-dir pending-user-deletion]
+
+The vault root may carry a qocha.json overriding engine defaults (dirs,
+owner, db, ollama_url, embed_model, answer_model); flags win over the
+file.
 """
 import argparse
 import json
 import sys
 import time
 
+from .lint import lint_vault, preflight
+from .scaffold import init_vault
 from .vault import Vault
 
 
@@ -96,6 +107,44 @@ def cmd_status(args):
     return 0
 
 
+def cmd_init(args):
+    created = init_vault(args.root, name=args.name, raw_dir=args.raw_dir)
+    if created:
+        for rel in created:
+            print(f"created {rel}")
+        print("next: fill the {{params}} in CLAUDE.md "
+              "(conventions/adaptation-checklist.md walks it)")
+    else:
+        print("nothing to do — vault already has every layer")
+    return 0
+
+
+def cmd_lint(args):
+    problems = lint_vault(args.root, raw_dir=args.raw_dir,
+                          wiki_dir=args.wiki_dir,
+                          allow_unresolved=args.allow_unresolved_links)
+    for rel, msg in problems:
+        print(f"  - {rel}: {msg}")
+    print(f"{len(problems)} problem{'s' if len(problems) != 1 else ''}")
+    return 1 if problems else 0
+
+
+def cmd_preflight(args):
+    out = preflight(args.root, raw_dir=args.raw_dir,
+                    wiki_dir=args.wiki_dir, pending_dir=args.pending_dir)
+    for rel, target in out["pending"]:
+        print(f"  [info] {rel} -> [[{target}]] is in {args.pending_dir}/ "
+              "(expected after a clean op)")
+    for rel, target in out["orphans"]:
+        print(f"  [orphan] {rel} -> [[{target}]] missing under "
+              f"{args.raw_dir}/")
+    if out["orphans"]:
+        return 1
+    if not out["pending"]:
+        print(f"OK: all source: edges resolve under {args.raw_dir}/")
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(
         prog="qocha",
@@ -139,6 +188,30 @@ def main(argv=None):
     sp = sub.add_parser("status", help="index counts and freshness")
     common(sp)
     sp.set_defaults(fn=cmd_status)
+
+    sp = sub.add_parser("init", help="seed a three-layer vault skeleton")
+    sp.add_argument("root", help="vault root directory")
+    sp.add_argument("--raw-dir", default="raw")
+    sp.add_argument("--name", default=None,
+                    help="vault display name (default: directory name)")
+    sp.set_defaults(fn=cmd_init)
+
+    sp = sub.add_parser("lint", help="structural lint of the wiki layer")
+    sp.add_argument("root", help="vault root directory")
+    sp.add_argument("--raw-dir", default="raw")
+    sp.add_argument("--wiki-dir", default="wiki")
+    sp.add_argument("--allow-unresolved-links", action="store_true",
+                    help="treat unresolved [[wikilinks]] as intentional "
+                         "seed links")
+    sp.set_defaults(fn=cmd_lint)
+
+    sp = sub.add_parser("preflight",
+                        help="ingest preflight: dangling source edges")
+    sp.add_argument("root", help="vault root directory")
+    sp.add_argument("--raw-dir", default="raw")
+    sp.add_argument("--wiki-dir", default="wiki")
+    sp.add_argument("--pending-dir", default="pending-user-deletion")
+    sp.set_defaults(fn=cmd_preflight)
 
     args = p.parse_args(argv)
     return args.fn(args)
