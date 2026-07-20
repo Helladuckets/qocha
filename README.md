@@ -14,6 +14,16 @@ connects to stays yours and private.** Qocha never phones home. Indexing
 is fully local. `ask` sends only the retrieved excerpts and your
 question to the model backend you configure, and only when you call it.
 
+## The pattern
+
+Qocha is built for the three-layer vault pattern popularly known as
+Karpathy's LLM Wiki: an immutable `raw/` dump folder, an LLM-written
+`wiki/`, and a schema file the owner co-evolves with the model. The
+pattern says take the structure and make it your own. Qocha puts an
+engine in it. (The engine does not require the pattern - any folder of
+markdown works - but the conventions and ingest layers on the roadmap
+assume it.)
+
 ## Quickstart
 
 ```bash
@@ -107,6 +117,26 @@ An embedder is anything with `embed_documents(texts)` /
 `embed_query(text)` returning unit vectors (or `None` when
 unreachable); an answerer is any `prompt -> str` callable.
 
+## Roadmap
+
+Qocha builds out in three stages:
+
+1. **Engine** (this release) - the index, hybrid search, and grounded
+   cited ask described above.
+2. **Conventions + harness** - the content conventions for the
+   three-layer pattern (frontmatter contract, tag policy, source
+   routing) and the agent ingest harness: tranche scoping, a
+   parallel ingest-agent contract, lint and preflight checks, vault
+   bootstrap.
+3. **Feeders + operator kit** - intake pipelines that keep a vault
+   filling itself, each dormant until configured: an inbox for web
+   clips (pair it with the official Obsidian Web Clipper; Qocha ships
+   only the receiving side), Apple Notes export, audio-recorder
+   transcripts, chat-history exports, image ingest - plus the operator
+   skills and routine templates that run them on a schedule. Also in
+   this stage: optional media extractors (OCR, image scene vectors,
+   face matching, transcripts) as engine plugins, and an MCP surface.
+
 ## Provenance
 
 Qocha is the extracted engine of a personal production system - a
@@ -114,10 +144,6 @@ local-first AI chief-of-staff app whose vault search this code powered
 first - operated and maintained daily, solo-built with AI coding agents
 used openly and steered deliberately. The bundled demo vault is fully
 synthetic.
-
-Roadmap: the vault content conventions and agent ingest harness the
-engine pairs with; optional media extractors (OCR, image scene vectors,
-face matching, transcripts) as engine plugins; an MCP surface.
 
 ## License
 
