@@ -1,0 +1,18 @@
+[project]
+name = "qocha"
+version = "0.1.0"
+description = "Local-first vault engine: hybrid semantic search and grounded, cited answers over a folder of markdown notes."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = ["numpy"]
+
+[project.scripts]
+qocha = "qocha.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["qocha*"]

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.egg-info/
+.qocha/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.DS_Store
+*.bak
