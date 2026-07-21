@@ -148,6 +148,19 @@ class VaultTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.vault.note_text(bad)
 
+    def test_paths_are_posix_on_every_platform(self):
+        # Vault paths are logical identifiers — citations validate against
+        # them, wikilinks resolve through them — so they are "/"-joined
+        # whatever the host separator (the Windows CI regression,
+        # 2026-07-21: stored 'wiki\\note.md' broke citation validation).
+        self.vault.scan()
+        hits = self.vault.search("comets", k=3)
+        self.assertTrue(hits)
+        for h in hits:
+            self.assertNotIn("\\", h["path"])
+        self.assertEqual(self.vault._rel(self.root / "wiki" / "comets.md"),
+                         "wiki/comets.md")
+
     def test_db_sidecar_location(self):
         self.vault.scan()
         self.assertTrue((self.root / ".qocha" / "index.sqlite").exists())

@@ -137,10 +137,13 @@ class Vault:
                     yield from sorted(base.rglob("*.md"))
 
     def _rel(self, path):
+        # Vault paths are logical identifiers — citations validate against
+        # them, wikilinks resolve through them, API payloads carry them —
+        # so they are ALWAYS posix-slashed, whatever the host separator.
         try:
-            return str(Path(path).relative_to(self.config.root))
+            return Path(path).relative_to(self.config.root).as_posix()
         except ValueError:
-            return str(path)
+            return Path(path).as_posix()
 
     def scan(self):
         """One incremental pass: (re)index changed files, drop removed ones.
@@ -352,8 +355,11 @@ class Vault:
         """Full markdown of one note, path-checked under the vault root."""
         root = self.config.root.resolve()
         target = (root / path).resolve()
-        if (not str(target).startswith(str(root) + "/")
-                or target.suffix != ".md"):
+        try:
+            target.relative_to(root)  # containment, separator-agnostic
+        except ValueError:
+            raise ValueError("path outside the vault") from None
+        if target.suffix != ".md":
             raise ValueError("path outside the vault")
         return target.read_text(errors="replace")[:NOTE_CAP]
 
