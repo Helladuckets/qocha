@@ -154,11 +154,12 @@ class VaultTests(unittest.TestCase):
         # whatever the host separator (the Windows CI regression,
         # 2026-07-21: stored 'wiki\\note.md' broke citation validation).
         self.vault.scan()
-        hits = self.vault.search("comets", k=3)
+        hits = self.vault.search("comets", limit=3)
         self.assertTrue(hits)
         for h in hits:
             self.assertNotIn("\\", h["path"])
-        self.assertEqual(self.vault._rel(self.root / "wiki" / "comets.md"),
+        root = self.vault.config.root
+        self.assertEqual(self.vault._rel(root / "wiki" / "comets.md"),
                          "wiki/comets.md")
 
     def test_db_sidecar_location(self):
