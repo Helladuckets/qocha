@@ -381,11 +381,17 @@ class Vault:
 
     # ---------- grounded ask ----------
 
-    def ask(self, question, k=10):
+    def ask(self, question, k=10, hits=None):
         """Grounded answer over the vault. Citations validated against the
         retrieved paths — a citation never points at a note the model was
-        not shown."""
-        hits = self.search(question, limit=k)
+        not shown.
+
+        hits: answer over a caller-supplied hit set instead of retrieving.
+        A caller that has already narrowed the corpus (a date window, a
+        recency sort) must be able to keep that narrowing, or the answer
+        would contradict the list the caller is showing."""
+        if hits is None:
+            hits = self.search(question, limit=k)
         if not hits:
             return {"answer": "I don't see anything about this in your "
                               "notes (no index hits).",
